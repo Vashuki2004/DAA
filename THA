@@ -186,3 +186,209 @@ int main()
 }
 
 
+
+
+
+//////////// MERGE SORT ITERATIVELY //////////////
+
+#include <iostream>
+using namespace std;
+
+void merge(int array[], int const left, int const mid,
+		int const right)
+{
+	auto const subArrayOne = mid - left + 1;
+	auto const subArrayTwo = right - mid;
+
+	auto *leftArray = new int[subArrayOne],
+		*rightArray = new int[subArrayTwo];
+
+	for (auto i = 0; i < subArrayOne; i++)
+		leftArray[i] = array[left + i];
+	for (auto j = 0; j < subArrayTwo; j++)
+		rightArray[j] = array[mid + 1 + j];
+
+	auto indexOfSubArrayOne
+		= 0, 
+		indexOfSubArrayTwo
+		= 0; 
+	int indexOfMergedArray
+		= left; 
+
+	while (indexOfSubArrayOne < subArrayOne
+		&& indexOfSubArrayTwo < subArrayTwo) {
+		if (leftArray[indexOfSubArrayOne]
+			<= rightArray[indexOfSubArrayTwo]) {
+			array[indexOfMergedArray]
+				= leftArray[indexOfSubArrayOne];
+			indexOfSubArrayOne++;
+		}
+		else {
+			array[indexOfMergedArray]
+				= rightArray[indexOfSubArrayTwo];
+			indexOfSubArrayTwo++;
+		}
+		indexOfMergedArray++;
+	}
+
+while (indexOfSubArrayOne < subArrayOne) {
+		array[indexOfMergedArray]
+			= leftArray[indexOfSubArrayOne];
+		indexOfSubArrayOne++;
+		indexOfMergedArray++;
+	}
+
+	while (indexOfSubArrayTwo < subArrayTwo) {
+		array[indexOfMergedArray]
+			= rightArray[indexOfSubArrayTwo];
+		indexOfSubArrayTwo++;
+		indexOfMergedArray++;
+	}
+	delete[] leftArray;
+	delete[] rightArray;
+}
+
+void mergeSort(int array[], int const begin, int const end)
+{
+	if (begin >= end)
+		return; 
+
+	auto mid = begin + (end - begin) / 2;
+	mergeSort(array, begin, mid);
+	mergeSort(array, mid + 1, end);
+	merge(array, begin, mid, end);
+}
+
+void printArray(int A[], int size)
+{
+	for (auto i = 0; i < size; i++)
+		cout << A[i] << " ";
+}
+
+int main()
+{
+	int arr[] = { 12, 11, 13, 5, 6, 7 };
+	auto arr_size = sizeof(arr) / sizeof(arr[0]);
+
+	cout << "Given array is \n";
+	printArray(arr, arr_size);
+
+	mergeSort(arr, 0, arr_size - 1);
+
+	cout << "\nSorted array is \n";
+	printArray(arr, arr_size);
+	return 0;
+}
+
+
+
+
+
+//////////// QUICK SORT ITERATIVELY //////////////
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void swap(int* a, int* b)
+{
+	int t = *a;
+	*a = *b;
+	*b = t;
+}
+
+int partition(int arr[], int low, int high)
+{
+	int pivot = arr[high]; // pivot
+	int i
+		= (low
+		- 1); 
+
+	for (int j = low; j <= high - 1; j++) {
+		if (arr[j] < pivot) {
+			i++; 
+			swap(&arr[i], &arr[j]);
+		}
+	}
+	swap(&arr[i + 1], &arr[high]);
+	return (i + 1);
+}
+
+void quickSort(int arr[], int low, int high)
+{
+	if (low < high) {
+		int pi = partition(arr, low, high);
+		quickSort(arr, low, pi - 1);
+		quickSort(arr, pi + 1, high);
+	}
+}
+
+void printArray(int arr[], int size)
+{
+	int i;
+	for (i = 0; i < size; i++)
+		cout << arr[i] << " ";
+	cout << endl;
+}
+
+int main()
+{
+	int arr[] = { 10, 7, 8, 9, 1, 5 };
+	int n = sizeof(arr) / sizeof(arr[0]);
+	quickSort(arr, 0, n - 1);
+	cout << "Sorted array: \n";
+	printArray(arr, n);
+	return 0;
+}
+
+
+
+
+
+
+//////////// BINARY SEARCH ITERATIVELY //////////////
+
+#include <bits/stdc++.h>
+#include <iostream>
+using namespace std;
+
+int binarySearch(vector<int> v, int To_Find)
+{
+	int lo = 0, hi = v.size() - 1;
+	int mid;
+
+	while (hi - lo > 1) {
+		int mid = (hi + lo) / 2;
+		if (v[mid] < To_Find) {
+			lo = mid + 1;
+		}
+		else {
+			hi = mid;
+		}
+	}
+	if (v[lo] == To_Find) {
+		cout << "Found"
+			<< " At Index " << lo << endl;
+	}
+	else if (v[hi] == To_Find) {
+		cout << "Found"
+			<< " At Index " << hi << endl;
+	}
+	else {
+		cout << "Not Found" << endl;
+	}
+}
+
+int main()
+{
+	vector<int> v = { 1, 3, 4, 5, 6 };
+	int To_Find = 1;
+	binarySearch(v, To_Find);
+	To_Find = 6;
+	binarySearch(v, To_Find);
+	To_Find = 10;
+	binarySearch(v, To_Find);
+	return 0;
+}
+
+
+
